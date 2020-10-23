@@ -15,39 +15,23 @@ public class Main {
 			XSSFWorkbook wb = new XSSFWorkbook(fis);
 			XSSFSheet sheet = wb.getSheetAt(0);
 			Iterator<Row> itr = sheet.iterator();
-//			while (itr.hasNext())
-//			{
-//				Row row = itr.next();
-//				Iterator<Cell> cellIterator = row.cellIterator();
-//				while (cellIterator.hasNext())
-//				{
-//					Cell cell = cellIterator.next();
-//					switch (cell.getCellType())
-//					{
-//						case Cell.CELL_TYPE_STRING:
-//							System.out.print(cell.getStringCellValue() + "\t\t\t");
-//							break;
-//						case Cell.CELL_TYPE_NUMERIC:
-//							System.out.print(cell.getNumericCellValue() + "\t\t\t");
-//							break;
-//						default:
-//					}
-//				}
-//				System.out.println("");
-//			}
 
-			int target = 100;
+			int target = 50;
 			int i=0;
+			// Skip de eerste row
+			Row row = itr.next();
 			while(i<target){
-				Row row = itr.next();
+				row = itr.next();
 				System.out.println(
-						String.format("%s %s %d %d")
+						String.format("%s %s %f %f %s %s",
+								row.getCell(1).getStringCellValue(),
+								row.getCell(3).getStringCellValue(),
+								row.getCell(4).getNumericCellValue(),
+								row.getCell(5).getNumericCellValue(),
+								row.getCell(8).getStringCellValue(),
+								row.getCell(10).getStringCellValue())
 				);
-				System.out.println(row.getCell(1));
-				System.out.println(row.getCell(3));
-				System.out.println(row.getCell(4));
-				System.out.println(row.getCell(5));
-				System.out.println(row.getCell(10));
+				i++;
 			}
 		}
 		catch(Exception e)
