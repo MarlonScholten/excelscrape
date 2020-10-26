@@ -3,7 +3,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Iterator;
+import java.util.Locale;
 
 public class getAirports {
     public static void main(String[] args){
@@ -22,20 +25,24 @@ public class getAirports {
             int i=0;
             // Skip de eerste row
             Row row = itr.next();
+
             while(i<target){
                 row = itr.next();
-                String value = String.format("('%s', '%s', %f, %f, '%s', '%s'),\n",
-                        row.getCell(1).getStringCellValue().replace("'", ""),
-                        row.getCell(8).getStringCellValue().replace("'", ""),
+                String value = String.format("('%s', '%s', %.0f, %.0f, '%s', '%s')",
+                        removeSingleQuote(row.getCell(1).getStringCellValue()),
+                        removeSingleQuote(row.getCell(8).getStringCellValue()),
                         row.getCell(4).getNumericCellValue(),
                         row.getCell(5).getNumericCellValue(),
-                        row.getCell(3).getStringCellValue().replace("'", ""),
-                        row.getCell(10).getStringCellValue().replace("'", ""));
+                        removeSingleQuote(row.getCell(3).getStringCellValue()),
+                        removeSingleQuote(row.getCell(10).getStringCellValue())
+                );
+                if(i!=target-1){
+                    value +=",\n";
+                }
                 i++;
                 values += value;
             }
             String query = insert + values + ";";
-            System.out.println(query);
             writeFile("airport-insert.sql", query);
         }
         catch(Exception e)
@@ -60,5 +67,9 @@ public class getAirports {
             closeable.close();
         } catch (IOException ignored) {
         }
+    }
+
+    public static String removeSingleQuote(String string){
+        return string.replace("'", "");
     }
 }
