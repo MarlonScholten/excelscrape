@@ -15,19 +15,19 @@ public class getVliegtuigen {
 			XSSFSheet sheet = wb.getSheetAt(0);
 			Iterator<Row> itr = sheet.iterator();
 
-			int target = 100;
-			int i = 0;
-			// Skip de eerste row
-			Row row = itr.next();
+			int target = 15;
+			int i = 4;
+			int class_id = 10;
+			Row row = itr.next(); // Skip de eerste row
 			String flightinfo = "VALUES";
 			while (i < target) {
-				row = itr.next();
-				String info = String.format("('%s', %s), \n",
-						row.getCell(0).getStringCellValue(),
-						i);
-
-						//row.getCell(7).getStringCellValue());
+				//(id, max_seats, name, plane_type_id) VALUES (0, 28, 'Business', 0),
+				String info = String.format("(%s, 28, 'Business', %s), \n", class_id, i);
+				class_id++;
 				flightinfo = flightinfo + info;
+				String info2 = String.format("(%s, 28, 'Economy', %s), \n", class_id, i);
+				class_id++;
+				flightinfo = flightinfo + info2;
 				i++;
 			}
 			writeFile("test.sql", flightinfo);
