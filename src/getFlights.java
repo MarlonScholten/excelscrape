@@ -74,7 +74,6 @@ public class getFlights {
 			fos = new FileOutputStream(filename);
 			fos.write(text.getBytes("UTF-8"));
 		} catch (IOException e) {
-			System.out.println("Ging niet best");
 			close(fos);
 			throw e;
 		}
